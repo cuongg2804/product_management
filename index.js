@@ -27,7 +27,7 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 //Router 
 app.set("view engine", "pug");
-app.set('view engine', `${__dirname}/views`);
+app.set("view engine", `${__dirname}/views`);
 
 database.connect();
 routersClient(app);

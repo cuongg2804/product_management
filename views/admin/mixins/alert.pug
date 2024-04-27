@@ -1,0 +1,9 @@
+mixin alert-success ()
+    - if (messages.success) 
+      div(class="alert alert-success" show-alert) #{messages.success}
+        button(class="alert alert-success" close-alert) x
+
+mixin alert-error ()
+    - if (messages.error) 
+      div(class="alert alert-danger" show-alert) #{messages.error}
+        button(class="alert alert-success" close-alert) x

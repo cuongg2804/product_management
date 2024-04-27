@@ -19,7 +19,7 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 //End Flash
 
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -27,7 +27,7 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 //Router 
 app.set("view engine", "pug");
-app.set("view engine", `views`);
+app.set('view engine', `${__dirname}/views`);
 
 database.connect();
 routersClient(app);

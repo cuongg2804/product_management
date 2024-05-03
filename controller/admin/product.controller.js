@@ -34,11 +34,21 @@ module.exports.index = async (req,res) =>{
     const objectPagination = Pagination(req,countRecord) ;   
     //End Pagination
 
+    //Sort
+    const sort = {} ;
+    if(req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue ;
+    }
+    else {
+        sort.position = "desc" ;
+    }
+    //End Sort 
+
     const products_list  = await product
         .find(find_list)
         .limit(objectPagination.limitItem)
         .skip(objectPagination.skipItem)
-        .sort({ position : "desc"});
+        .sort(sort);
 
     res.render("admin/pages/product/index.pug",{
         pageTitle : "Danh sách sản phẩm",
@@ -191,7 +201,6 @@ module.exports.detail = async (req, res) => {
     const products = await product.findOne({
         _id : id
     })
-   console.log(products);
     res.render("admin/pages/product/detail.pug", {
         pageTitle : "Chi tiết sản phảm",
         product : products

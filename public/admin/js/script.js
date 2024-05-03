@@ -182,3 +182,34 @@ if(uploadImage) {
         }
     })
 }
+
+//Sort
+const sort = document.querySelector("[sort]");
+if(sort) {
+    const url = new URL(window.location.href);
+    const sort_select = sort.querySelector("[sort-select]");
+    sort_select.addEventListener("change",() => {
+        const [key,value]  = sort_select.value.split("-");
+         url.searchParams.set("sortKey",key);
+         url.searchParams.set("sortValue",value);
+         window.location.href = url.href ;
+    })
+
+    //Thêm Selected cho lựa chọn
+   const selectKey = url.searchParams.get("sortKey");
+   const selectValue = url.searchParams.get("sortValue");
+    if(selectKey && selectValue) {
+        const strSelect = `${selectKey}-${selectValue}` ;
+        const optionSelected = sort_select.querySelector(`option[value='${strSelect}']`);
+        optionSelected.selected = true ;
+    }
+
+    const buttonClear = sort.querySelector("[sort-clear]");
+    buttonClear.addEventListener("click", () => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href = url;
+    })
+}
+//End Sort

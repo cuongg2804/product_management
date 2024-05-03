@@ -144,9 +144,9 @@ module.exports.createPost = async (req,res) => {
     else{
         req.body.position = parseInt(req.body.position);
     }
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}` ;
-    }
+    // if(req.file){
+    //     req.body.thumbnail = `/uploads/${req.file.filename}` ;
+    // }
     
     const newRecord =  new product(req.body) ;
     await newRecord.save() ;
@@ -175,9 +175,9 @@ module.exports.editPatch = async (req,res) => {
     discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
     req.body.position = parseInt(req.body.position);
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}` ;
-    }
+        // if(req.file){
+        //     req.body.thumbnail = `/uploads/${req.file.filename}` ;
+        // }
     await product.updateOne({
         _id: id
     },req.body )

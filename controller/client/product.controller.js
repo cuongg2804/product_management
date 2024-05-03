@@ -30,7 +30,6 @@ module.exports.detail = async (req, res) => {
             deleted: false,
             status : "active"
         })
-    console.log(products);
     res.render("client/pages/products/detail.pug",{
         pageTitle : "Chi tiết sản phẩm",
         product : products

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cloudinary/url-gen": "^1.19.0",
     "body-parse": "^0.1.0",
     "cloudinary": "^2.2.0",
     "cookie-parse": "^0.4.0",

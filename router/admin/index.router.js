@@ -6,7 +6,7 @@ const Bin = require("./bin.router");
 module.exports = (app) => {
     const Admin_Path = `${systemConfig.prefixAdmin}`;
     app.use("/" + Admin_Path + "/dashboard",dashBroad);
-
+    
     app.use("/" + Admin_Path + "/products", Product);
     
     app.use("/" + Admin_Path + "/bins", Bin);

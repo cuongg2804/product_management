@@ -1,6 +1,6 @@
 const express = require("express") ;
 const router = express.Router() ;
-const multer  = require('multer')
+const multer  = require('multer') ;
 //const storage = require("../../helper/storageMulter.helper");
 const validates = require("../../validates/admin/product.validates");
 const uploadCloud = require("../../middlewares/admin/uploadcloud.middleware");
@@ -41,6 +41,7 @@ router.patch("/edit/:id",  upload.single('thumbnail'),uploadCloud.uploadSingle,v
 // GET /admin/products/detail/id
 
 router.get("/detail/:id",product.detail);
+
 
 
 module.exports = router ;

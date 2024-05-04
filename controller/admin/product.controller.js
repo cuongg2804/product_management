@@ -71,7 +71,7 @@ module.exports.changeStatus = async (req,res) =>{
         status : status 
     })
 
-    req.flash("success","Cập nhật thành công ");
+    req.flash("success","Cập nhật thành công");
     res.redirect(`back`);
 }
 
@@ -206,3 +206,4 @@ module.exports.detail = async (req, res) => {
         product : products
     })
 }
+

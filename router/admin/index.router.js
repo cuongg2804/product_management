@@ -2,6 +2,7 @@ const dashBroad = require("./dashbroad.router") ;
 const systemConfig = require("../../config/system");
 const Product = require("./product.router");
 const Bin = require("./bin.router");
+const Category = require("./category.router");
 
 module.exports = (app) => {
     const Admin_Path = `${systemConfig.prefixAdmin}`;
@@ -10,4 +11,7 @@ module.exports = (app) => {
     app.use("/" + Admin_Path + "/products", Product);
     
     app.use("/" + Admin_Path + "/bins", Bin);
+
+    app.use("/" + Admin_Path + "/products-category", Category);
+
 }

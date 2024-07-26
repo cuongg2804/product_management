@@ -3,8 +3,9 @@ const product = require("../../models/product.model");
 const filter = require("../../helper/filter.helper");
 const Pagination = require("../../helper/pagination.helper");
 const config = require("../../config/system");
-
-
+const productCategory = require("../../models/products-category");
+const createTree  = require("../../helper/category.helper");
+const Account = require("../../models/accounts.model");
 
 //[GET] /admin/products
 
@@ -50,6 +51,15 @@ module.exports.index = async (req,res) =>{
         .skip(objectPagination.skipItem)
         .sort(sort);
 
+    for (const product of products_list){
+        const createByName = await Account.findOne({
+            _id : product.createdBy
+        })
+        if(createByName){
+            product.createByFullName = createByName.fullName
+        }
+    }
+
     res.render("admin/pages/product/index.pug",{
         pageTitle : "Danh sách sản phẩm",
         products : products_list,
@@ -88,7 +98,8 @@ module.exports.changeMulti = async (req, res) => {
             await product.updateMany({
                 _id : {$in : id} 
             },{
-                status : status 
+                status : status, 
+                updatedBy : res.locals.user.id
             })
             req.flash("success","Cập nhật thành công ");
             break;
@@ -96,7 +107,9 @@ module.exports.changeMulti = async (req, res) => {
             await product.updateMany({
                 _id : {$in : id} 
             },{
-                deleted : true
+                deleted : true,
+                deletedAt : new Date(),
+                deletedBy : res.locals.user.id
             })
             break;
         case "change-position":
@@ -127,7 +140,9 @@ module.exports.delete = async (req,res) => {
     await product.updateOne({
         _id: id
     },{
-        deleted: true 
+        deleted: true,
+        deletedAt : new Date(),
+        deletedBy : res.locals.user.id
     })
     req.flash("success","Xóa thành công ");
     res.redirect(`back`);
@@ -136,8 +151,14 @@ module.exports.delete = async (req,res) => {
 // [GET] : /admin/products/create
 
 module.exports.create = async (req,res) => {
+    const category = await productCategory.find({
+        deleted:false
+    })
+    
+    const newRecords = createTree(category);
     res.render("admin/pages/product/create.pug",{
-        pageTitle: "Tạo mới sản phẩm"
+        pageTitle: "Tạo mới sản phẩm",
+        category : newRecords
     });
 }
 
@@ -145,6 +166,8 @@ module.exports.createPost = async (req,res) => {
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.stock);
     req.body.stock = parseInt(req.body.stock);
+    req.body.createdBy = res.locals.user.id;
+    
     if(!req.body.position){
         const position = await product.countDocuments({
             deleted : false
@@ -173,9 +196,14 @@ module.exports.edit = async (req,res) =>{
         _id: id,
         deleted : false
     })
+    const category = await productCategory.find({
+        deleted:false
+    })
+    const newRecords = createTree(category);
     res.render("admin/pages/product/edit.pug",{
         pageTitle : "Chỉnh sửa sản phẩm ",
-        products : products
+        products : products,
+        category: newRecords
     });
 }
 
@@ -185,14 +213,13 @@ module.exports.editPatch = async (req,res) => {
     discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
     req.body.position = parseInt(req.body.position);
-        // if(req.file){
-        //     req.body.thumbnail = `/uploads/${req.file.filename}` ;
-        // }
+    req.body.updatedBy = res.locals.user.id;
+    
     await product.updateOne({
         _id: id
     },req.body )
     req.flash("success","Cập nhật thành công thành công ");
-    res.redirect(`/admin/products`);
+    res.redirect(`/${config.prefixAdmin}/products`);
 }
 
 module.exports.detail = async (req, res) => {

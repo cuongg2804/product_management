@@ -161,7 +161,7 @@ if(alert) {
         alert.classList.add("alert-hidden");
     },6000)
     const close_alert = alert.querySelector("[close-alert]");
-    console.log(close_alert);
+
     close_alert.addEventListener("click", () => {
         alert.classList.add("alert-hidden");
     })
@@ -169,11 +169,11 @@ if(alert) {
 // End show-alert
 
 //Upload Imange 
-const uploadImage = document.querySelector("[uploadimage]");
+const uploadImage = document.querySelector("[upload-image]");
 if(uploadImage) {
-    const uploadImage_input = uploadImage.querySelector("[uploadimage_input]");
+    const uploadImage_input = uploadImage.querySelector("[upload-image-input]");
     console.log(uploadImage_input);
-    const img =  uploadImage.querySelector("[image]");
+    const img =  uploadImage.querySelector("[upload-image-preview]");
    console.log(img);
     uploadImage_input.addEventListener("change", () => {
         const file = uploadImage_input.files[0] ;
@@ -213,3 +213,95 @@ if(sort) {
     })
 }
 //End Sort
+
+//Role
+const buttonSubmitPermissions = document.querySelector("[button-submit-permissions]");
+if(buttonSubmitPermissions){
+    buttonSubmitPermissions.addEventListener("click", () => {
+        const Role = [] ;
+        const tableRole = document.querySelector("table[table-permissions]");
+        const rows = tableRole.querySelectorAll("tbody tr[data-name]");
+        rows.forEach((row,index)=>{
+            const data = row.getAttribute("data-name");
+            const inputs = row.querySelectorAll("input");
+            
+            if(data == "id"){
+                inputs.forEach((input,index) => {
+                    const id = input.value ;
+                    Role.push({
+                        id : id,
+                        permissions : []
+                    })
+                })
+            }
+            else{
+                inputs.forEach((input,index) => {
+                    const inputChecked = input.checked ;
+                    if(inputChecked){
+                        Role[index].permissions.push(data);
+                    }
+                })
+            }
+        })
+        if(Role.length > 0) {
+            console.log(Role);
+            const formChangePermissions = document.querySelector("[form-change-permissions]");
+            const inputRoles = formChangePermissions.querySelector("input[name='roles']");
+            inputRoles.value = JSON.stringify(Role);
+            formChangePermissions.submit();
+        }
+    })
+   
+}
+
+//End role
+
+//
+const data_role = document.querySelector("[data-records]");
+if(data_role){
+    
+    const records = JSON.parse(data_role.getAttribute("data-records"));
+   
+    const table = document.querySelector("[table-permissions]");
+   
+    records.forEach((item,index) => {
+        const permissions = item.permissions ;
+
+        permissions.forEach((permission)=> {
+            const row = table.querySelector(`tr[data-name=${permission}]`);
+          
+            const input = row.querySelectorAll(`input`)[index];
+            input.checked = true;
+        })
+    })
+}
+//
+
+const showAlert = document.querySelector("[show-alert]");
+if(showAlert) {
+  let time = showAlert.getAttribute("data-time");
+  time = parseInt(time);
+
+  // Sau time giây sẽ đóng thông báo
+  setTimeout(() => {
+    showAlert.classList.add("alert-hidden");
+  }, time);
+
+  // Khi click vào nút close-alert sẽ đóng luôn
+  const closeAlert = showAlert.querySelector("[close-alert]");
+  closeAlert.addEventListener("click", () => {
+    showAlert.classList.add("alert-hidden");
+  });
+}
+
+//Update item cart
+const tableCart = document.querySelector("[table-cart]");
+if(tableCart){
+    const listInputTBC = tableCart.querySelectorAll("input[name='quantity']");
+    listInputTBC.forEach(item => {
+        item.addEventListener("change" ,()=> {
+            
+        })
+    })
+}
+//End Update item cart

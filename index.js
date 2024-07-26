@@ -9,8 +9,11 @@ var flash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 var path = require('path');
+const moment = require('moment');
 
 dotenv.config();
+
+app.locals.moment = moment;
 
 const routersClient = require("./router/client/index.router");
 const routersAdmin = require("./router/admin/index.router");
@@ -35,6 +38,13 @@ app.set("views", `${__dirname}/views`);
 database.connect();
 routersClient(app);
 routersAdmin(app);
+
+
+app.get("*", (req,res) => {
+    res.render("client/pages/errors/404",{
+        pageTitle : "Trang không tồn tại",
+    })
+})
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`Đã kết nối tới cổng: ${port}`);

@@ -1,0 +1,10 @@
+extends ../../layouts/default.pug
+include ../../mixins/box_head.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box_head("Thông tin tài khoản")
+
+    div #{infoUser}

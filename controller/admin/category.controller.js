@@ -43,3 +43,35 @@ module.exports.createPost = async (req, res) => {
     req.flash("success","Thêm mới danh mục thành công");
     res.redirect(`/${config.prefixAdmin}/products-category`);
 }
+
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id ;
+        const records = await productCategory.find({
+            deleted : false,
+            status : "active"
+        })
+        const newRecords = createTree(records);
+        const data = await productCategory.findOne({
+            _id : id,
+            deleted : false,
+            status : "active"
+        })
+        res.render("admin/pages/product-category/edit.pug",{
+            pageTitle :"Chỉnh sửa danh mục sản phẩm",
+            data : data,
+            records : newRecords
+        })
+    } catch (error) {
+        res.redirect ( `/${config.prefixAdmin}/products-category`);
+    }
+}
+
+module.exports.editPatch = async (req, res) => {
+    req.body.position = parseInt(req.body.position);
+    await productCategory.updateOne({
+        _id: req.params.id
+    },req.body )
+    req.flash("success","Cập nhật danh mục sản phẩm thành công");
+    res.redirect(`/${config.prefixAdmin}/products-category`);
+}

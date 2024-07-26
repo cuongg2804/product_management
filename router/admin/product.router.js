@@ -43,5 +43,4 @@ router.patch("/edit/:id",  upload.single('thumbnail'),uploadCloud.uploadSingle,v
 router.get("/detail/:id",product.detail);
 
 
-
 module.exports = router ;

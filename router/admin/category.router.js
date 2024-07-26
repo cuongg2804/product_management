@@ -17,6 +17,22 @@ router.get("/create", category.create);
 router.post("/create",
 upload.single('thumbnail'), 
 uploadCloud.uploadSingle,
- category.createPost);
+category.createPost);
+
+//  GET /admin/products-category/edit/;id
+
+router.get("/edit/:id",
+upload.single('thumbnail'), 
+uploadCloud.uploadSingle,
+category.edit
+);
+
+// PATCH /admin/products-category/edit/:id
+
+router.patch("/edit/:id",
+upload.single('thumbnail'), 
+uploadCloud.uploadSingle,
+category.editPatch
+);
 
 module.exports = router

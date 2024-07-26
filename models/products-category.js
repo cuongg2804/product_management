@@ -7,8 +7,8 @@ const productCategorySchema = new mongoose.Schema(
     {
       title: String,
           parent_id: {
-        type: String,
-        default: "",
+          type: String,
+          default: "",
       },
       description: String,
       thumbnail: String,

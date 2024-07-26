@@ -8,4 +8,8 @@ router.get("/", productController.index );
 
 router.get("/detail/:slug", productController.detail);
 
+// Cannot GET /products/dien-thoai
+
+router.get("/:slugCategory", productController.category);
+
 module.exports = router ;

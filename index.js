@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 var path = require('path');
 const moment = require('moment');
+const http = require("http");
 
 dotenv.config();
 
@@ -39,13 +40,13 @@ database.connect();
 routersClient(app);
 routersAdmin(app);
 
-
+const server = http.createServer(app);
 app.get("*", (req,res) => {
     res.render("client/pages/errors/404",{
         pageTitle : "Trang không tồn tại",
     })
 })
-const port = process.env.PORT;
+const port = process.env.PORT ||4000 ;
 app.listen(port, () => {
     console.log(`Đã kết nối tới cổng: ${port}`);
 });

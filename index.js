@@ -1,5 +1,5 @@
 const express = require("express");
-const database = require("./config/database")
+const database = require("./config/database");
 const systemConfig = require("./config/system");
 const app = express();
 const dotenv = require("dotenv");
@@ -15,6 +15,7 @@ const http = require("http");
 dotenv.config();
 
 app.locals.moment = moment;
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const routersClient = require("./router/client/index.router");
 const routersAdmin = require("./router/admin/index.router");

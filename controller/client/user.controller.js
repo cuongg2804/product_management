@@ -44,6 +44,7 @@ module.exports.login = async (req, res) => {
 }
 
 module.exports.loginPost = async (req, res) => {
+    console.log(req.body)
     const email = req.body.email;
     const password = md5(req.body.password);
 

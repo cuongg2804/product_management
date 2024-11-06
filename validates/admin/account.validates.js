@@ -1,6 +1,6 @@
 const Account = require("../../models/accounts.model");
 
-module.exports.validateAccount = (req,res,next) => {
+module.exports.validateAccount = async (req,res,next) => {
     if(!req.body.fullName) {
         req.flash("error", "Vui lòng nhập họ tên");
         res.redirect("back");
@@ -21,7 +21,7 @@ module.exports.validateAccount = (req,res,next) => {
         res.redirect("back");
         return ;
     }
-    const existEmail = Account.findOne({
+    const existEmail = await Account.findOne({
         email : req.body.email,
         deleted : false 
     })

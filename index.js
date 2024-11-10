@@ -42,11 +42,11 @@ routersClient(app);
 routersAdmin(app);
 
 const server = http.createServer(app);
-app.get("*", (req,res) => {
-    res.render("client/pages/errors/404",{
-        pageTitle : "Trang không tồn tại",
-    })
-})
+// app.get("*", (req,res) => {
+//     res.render("client/pages/errors/404",{
+//         pageTitle : "Trang không tồn tại",
+//     })
+// })
 const port = process.env.PORT ||4000 ;
 app.listen(port, () => {
     console.log(`Đã kết nối tới cổng: ${port}`);

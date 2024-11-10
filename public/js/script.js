@@ -296,12 +296,27 @@ if(showAlert) {
 
 //Update item cart
 const tableCart = document.querySelector("[table-cart]");
-if(tableCart){
-    const listInputTBC = tableCart.querySelectorAll("input[name='quantity']");
-    listInputTBC.forEach(item => {
-        item.addEventListener("change" ,()=> {
+if(tableCart) {
+  const listInputQuantity = tableCart.querySelectorAll("input[name='quantity']");
+  listInputQuantity.forEach(input => {
+    input.addEventListener("change", () => {
+        
+        
+        const quantity = input.value;
+        const productId = input.getAttribute("item-id");
             
+        const totalBill = document.querySelector("[totalBill]");
+        const product = tableCart.querySelector(`[id_product="${productId}"]`);
+    
+        fetch(`/cart/update/${productId}/${quantity}`,{
+            method : "PATCH"
         })
-    })
+        .then (res => res.json())
+        .then(data =>{
+            totalBill.innerHTML =`Tổng đơn hàng: ${data.totalPriceBill}$`;
+            product.innerHTML = `${data.totalPrice}$`;
+        })
+    });
+  });
 }
 //End Update item cart

@@ -46,6 +46,8 @@ module.exports.addPost = async (req , res) =>{
 
 module.exports.index = async (req , res) =>{
     const idCart = req.cookies.idCart;
+    
+
     const cart = await Cart.findOne({
         _id : idCart
     })
@@ -83,4 +85,50 @@ module.exports.delete = async (req , res) =>{
     })
     req.flash("success", "Đã xóa sản phẩm khỏi giỏ hàng!");
     res.redirect('back');
+}
+
+module.exports.update = async (req , res) => {
+    const idCart = req.cookies.idCart;
+    
+    
+    const productId = req.params.id;
+    const quantity = parseInt(req.params.quantity);
+    const cartId = req.cookies.idCart;
+   
+    await Cart.updateOne({
+        _id: cartId,
+        "products.product_id": productId
+    }, {
+        $set: { "products.$.quantity": quantity }
+    });
+    
+
+    const cart = await Cart.findOne({
+        _id : idCart
+    })
+    cart.totalPriceBill = 0 ;
+    let newPrice = 0 ;
+    for (const  item of cart.products){
+        const product = await Product.findOne({
+            _id : item.product_id,
+            deleted : false,
+            status : "active"
+        })
+        
+        product.PriceNew = (product.price -  product.price*(product.discountPercentage/100)).toFixed(0);
+        cart.totalPrice =product.PriceNew  * item.quantity;
+        if(item.product_id == productId){
+            newPrice = product.PriceNew;
+        }
+        cart.totalPriceBill += cart.totalPrice;
+    }
+
+   // req.flash("success", "Cập nhật sản phẩm thành công!");
+    res.json({
+        code : "200",
+        message :"Cập nhật thành công!",
+        totalPriceBill :cart.totalPriceBill,
+        totalPrice :  newPrice * quantity
+
+    });
 }

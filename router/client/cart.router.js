@@ -12,4 +12,6 @@ router.get("/", Cart.index);
 
 router.get("/delete/:id", Cart.delete);
 
+router.patch("/update/:id/:quantity", Cart.update);
+
 module.exports = router ;

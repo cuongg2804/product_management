@@ -37,7 +37,7 @@ block main
                                         )
                                     td
                                         a(href=`/products/detail/${item.infoProduct.slug}`) #{item.infoProduct.title}
-                                    td #{item.infoProduct.priceNew}$
+                                    td() #{item.infoProduct.priceNew}$
                                     td
                                         input(
                                             type="number"
@@ -48,17 +48,18 @@ block main
                                             item-id=item.product_id
                                             style="width: 60px"
                                         )
-                                    td #{item.infoProduct.totalPrice}$
+                                    td(id_product = item.product_id) #{item.infoProduct.totalPrice}$
                                     td
                                         a(
                                             href=`/cart/delete/${item.product_id}`
                                             class="btn btn-danger"
                                         ) Xóa
 
-            h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
+            h3(class="text-right" totalBill) Tổng đơn hàng: #{cartDetail.totalPrice}$
 
             div(class="text-right mt-3")
                 a(href="/checkout" class="btn btn-success") THANH TOÁN
     else 
         .col-12
-            div Giỏ hàng trống
+            a(href="/")
+                img(src="https://salanest.com/img/empty-cart.webp")
